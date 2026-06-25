@@ -78,7 +78,9 @@ def load_vader_csv():
         labels=['negative', 'neutral', 'positive']
     ).astype(str)
     rob = ['roberta_neg', 'roberta_neu', 'roberta_pos']
-    df['roberta_pred'] = df[rob].idxmax(axis=1).str.replace('roberta_', '', regex=False)
+    df['roberta_pred'] = df[rob].idxmax(axis=1).map({
+        'roberta_neg': 'negative', 'roberta_neu': 'neutral', 'roberta_pos': 'positive'
+    })
     df['vader_pred'] = pd.cut(
         df['vader_compound'], bins=[-1.01, -0.05, 0.05, 1.01],
         labels=['negative', 'neutral', 'positive']
