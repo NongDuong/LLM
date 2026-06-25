@@ -1,0 +1,40 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# HuggingFace model cache (too large)
+.cache/
+
+# Report generation (dev only)
+generate_images.py
+generate_demo_screenshots.py
+generate_report.py
+take_screenshots.py
+docs.txt
+bao_cao_tot_nghiep.docx
+images/
+
+# Word temp files
+~$*.docx
+~$*.doc
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Streamlit
+.streamlit/secrets.toml
