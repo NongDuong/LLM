@@ -1,6 +1,5 @@
 streamlit>=1.28.0
 transformers>=4.35.0
-# torch is installed separately in setup.bat (CPU-only build)
 nltk>=3.8.1
 pandas>=2.0.0
 numpy>=1.24.0

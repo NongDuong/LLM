@@ -26,13 +26,16 @@ call venv\Scripts\activate.bat
 
 echo [3/4] Cai dat cac thu vien...
 python -m pip install --upgrade pip --quiet
-echo     Dang cai PyTorch (CPU-only, ~280 MB)...
-pip install torch --index-url https://download.pytorch.org/whl/cpu --quiet
+
+echo     Buoc 3a: Cai PyTorch CPU-only (~280 MB, khong can GPU)...
+pip install torch --index-url https://download.pytorch.org/whl/cpu
 if errorlevel 1 (
-    echo [CANH BAO] Cai torch CPU that bai, thu ban mac dinh...
-    pip install torch --quiet
+    echo [LOI] Cai dat PyTorch that bai. Kiem tra ket noi internet va thu lai.
+    pause
+    exit /b 1
 )
-echo     Dang cai cac thu vien con lai...
+
+echo     Buoc 3b: Cai cac thu vien con lai...
 pip install -r requirements.txt --quiet
 if errorlevel 1 (
     echo [LOI] Cai dat thu vien that bai
