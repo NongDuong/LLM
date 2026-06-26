@@ -13,7 +13,11 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [1/4] Tao virtual environment...
+echo [1/5] Tao virtual environment...
+if exist venv (
+    echo     Xoa venv cu...
+    rmdir /s /q venv
+)
 python -m venv venv
 if errorlevel 1 (
     echo [LOI] Khong the tao virtual environment
@@ -21,21 +25,13 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [2/4] Kich hoat virtual environment...
+echo [2/5] Kich hoat virtual environment...
 call venv\Scripts\activate.bat
 
-echo [3/4] Cai dat cac thu vien...
+echo [3/5] Nang cap pip...
 python -m pip install --upgrade pip --quiet
 
-echo     Buoc 3a: Cai PyTorch CPU-only (~280 MB, khong can GPU)...
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-if errorlevel 1 (
-    echo [LOI] Cai dat PyTorch that bai. Kiem tra ket noi internet va thu lai.
-    pause
-    exit /b 1
-)
-
-echo     Buoc 3b: Cai cac thu vien con lai...
+echo [4/5] Cai dat cac thu vien (streamlit, transformers, ...)...
 pip install -r requirements.txt --quiet
 if errorlevel 1 (
     echo [LOI] Cai dat thu vien that bai
@@ -43,12 +39,27 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [4/4] Tai du lieu NLTK (VADER lexicon)...
+echo [5/5] Cai de PyTorch CPU-only (ghi de ban CUDA neu co)...
+pip install torch --index-url https://download.pytorch.org/whl/cpu --force-reinstall --quiet
+if errorlevel 1 (
+    echo [LOI] Cai dat PyTorch CPU that bai. Kiem tra ket noi internet.
+    pause
+    exit /b 1
+)
+
+echo     Tai du lieu NLTK (VADER lexicon)...
 python -c "import nltk; nltk.download('vader_lexicon', quiet=True); print('NLTK OK')"
+
+echo     Kiem tra PyTorch...
+python -c "import torch; v=torch.__version__; print('PyTorch:', v); exit(0 if '+cpu' in v else 1)"
+if errorlevel 1 (
+    echo [CANH BAO] PyTorch co the chua phai ban CPU. Chay lai setup.bat.
+    pause
+    exit /b 1
+)
 
 echo.
 echo =====================================================
-echo   Setup hoan tat thanh cong!
-echo   Chay ung dung: run.bat
+echo   Setup hoan tat! Chay ung dung: run.bat
 echo =====================================================
 pause
